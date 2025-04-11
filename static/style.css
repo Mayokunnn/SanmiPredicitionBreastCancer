@@ -1,75 +1,90 @@
-/* global look */
-*{box-sizing:border-box;margin:0;padding:0;font-family:"Poppins",sans-serif;}
-
-body{
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:linear-gradient(135deg,#3a7bd5 0%,#00d2ff 100%);
-  padding:2rem;
-  color:#222;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* white card */
-.card{
-  background:#fff;
-  width:100%;
-  max-width:420px;
-  border-radius:1.25rem;
-  box-shadow:0 10px 30px rgba(0,0,0,.15);
-  padding:2.5rem 2rem;
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(145deg, #d4fc79, #96e6a1);
+  color: #222;
+  padding: 2rem;
 }
 
-/* title */
-.card h1{
-  font-size:1.5rem;
-  font-weight:600;
-  text-align:center;
-  margin-bottom:1.5rem;
+.container {
+  width: 100%;
+  max-width: 480px;
+  padding: 1rem;
 }
 
-/* form layout */
-form.grid{
-  display:grid;
-  gap:1rem;
+.glass-card {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-/* labels stack input + text */
-label{
-  display:flex;
-  flex-direction:column;
-  font-size:.9rem;
-  font-weight:500;
-  gap:.25rem;
+.glass-card h1 {
+  text-align: center;
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+  color: #1a1a1a;
 }
 
-/* inputs */
-input{
-  padding:.6rem .8rem;
-  border:1px solid #ddd;
-  border-radius:.6rem;
-  font-size:1rem;
+.form-group {
+  margin-bottom: 1.2rem;
 }
 
-/* button */
-button{
-  padding:.7rem;
-  border:none;
-  border-radius:.6rem;
-  background:#3a7bd5;
-  color:#fff;
-  font-size:1rem;
-  font-weight:600;
-  cursor:pointer;
-  transition:background .2s;
+label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
 }
 
-button:hover{background:#2d68c4;}
+input {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 0.8rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.1);
+}
 
-/* result text */
-.result{
-  margin-top:1.5rem;
-  text-align:center;
-  font-size:1.1rem;
+input:focus {
+  outline: 2px solid #7ccf9b;
+}
+
+button {
+  width: 100%;
+  padding: 0.9rem;
+  border: none;
+  border-radius: 0.8rem;
+  background-color: #4caf50;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+button:hover {
+  background-color: #3d9442;
+}
+
+.result {
+  margin-top: 1.5rem;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 1rem;
+  padding: 1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
 }
