@@ -1,0 +1,75 @@
+/* global look */
+*{box-sizing:border-box;margin:0;padding:0;font-family:"Poppins",sans-serif;}
+
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#3a7bd5 0%,#00d2ff 100%);
+  padding:2rem;
+  color:#222;
+}
+
+/* white card */
+.card{
+  background:#fff;
+  width:100%;
+  max-width:420px;
+  border-radius:1.25rem;
+  box-shadow:0 10px 30px rgba(0,0,0,.15);
+  padding:2.5rem 2rem;
+}
+
+/* title */
+.card h1{
+  font-size:1.5rem;
+  font-weight:600;
+  text-align:center;
+  margin-bottom:1.5rem;
+}
+
+/* form layout */
+form.grid{
+  display:grid;
+  gap:1rem;
+}
+
+/* labels stack input + text */
+label{
+  display:flex;
+  flex-direction:column;
+  font-size:.9rem;
+  font-weight:500;
+  gap:.25rem;
+}
+
+/* inputs */
+input{
+  padding:.6rem .8rem;
+  border:1px solid #ddd;
+  border-radius:.6rem;
+  font-size:1rem;
+}
+
+/* button */
+button{
+  padding:.7rem;
+  border:none;
+  border-radius:.6rem;
+  background:#3a7bd5;
+  color:#fff;
+  font-size:1rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:background .2s;
+}
+
+button:hover{background:#2d68c4;}
+
+/* result text */
+.result{
+  margin-top:1.5rem;
+  text-align:center;
+  font-size:1.1rem;
+}

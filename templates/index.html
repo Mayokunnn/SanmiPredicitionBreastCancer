@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Specimen Size Calculator</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div class="card">
+    <h1>Specimen Size Calculator</h1>
+    <form method="post" class="grid">
+      <label>
+        Username
+        <input type="text" name="username" required />
+      </label>
+      <label>
+        Image Size (μm)
+        <input type="number" step="any" name="image_size" required />
+      </label>
+      <label>
+        Magnification
+        <input type="number" step="any" name="magnification" required />
+      </label>
+      <button type="submit">Calculate</button>
+    </form>
+    {% if result %}
+      <div class="result">
+        Real Size: <strong>{{ result }} μm</strong>
+      </div>
+    {% endif %}
+  </div>
+</body>
+</html>
