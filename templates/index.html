@@ -1,37 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Microscope Real Size Calculator</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-  <main class="container">
-    <section class="glass-card">
-      <h1>🧪 Specimen Size Calculator</h1>
-      <form method="POST">
-        <div class="form-group">
-          <label for="username">👤Enter Username</label>
-          <input type="text" id="username" name="username" required>
-        </div>
-        <div class="form-group">
-          <label for="image_size">🖼️ Image Size (μm)</label>
-          <input type="number" id="image_size" name="image_size" step="any" required>
-        </div>
-        <div class="form-group">
-          <label for="magnification">🔍 Magnification</label>
-          <input type="number" id="magnification" name="magnification" step="any" required>
-        </div>
-        <button type="submit">✨ Calculate</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Breast Cancer Prediction</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Breast Cancer Prediction</h1>
+
+      <form id="predictForm">
+        {% for name in feature_names %}
+        <label for="{{ name }}">{{ name }}</label>
+        <input
+          type="number"
+          step="any"
+          name="{{ name }}"
+          id="{{ name }}"
+          value="{{ default_values[name] if default_values[name] else 0 }}"
+          required
+        />
+        {% endfor %}
+        <button type="submit">Predict</button>
       </form>
 
-      {% if result %}
-      <div class="result">
-        <p>📏 Real Size: <strong>{{ result }} μm</strong></p>
+      <div id="prediction-result" style="display: none">
+        <h3>Prediction Result:</h3>
+        <p id="result"></p>
       </div>
-      {% endif %}
-    </section>
-  </main>
-</body>
+    </div>
+
+    <script>
+      document
+        .getElementById("predictForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const inputs = document.querySelectorAll("input");
+          const features = Array.from(inputs).map((input) =>
+            parseFloat(input.value)
+          );
+
+          fetch("/predict", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ features }),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.error) {
+                alert("Error: " + data.error);
+                return;
+              }
+
+              alert(
+                `Diagnosis: ${
+                  data.diagnosis
+                }\nProbability: ${data.probability.toFixed(2)}`
+              );
+            })
+            .catch((err) => console.error("Prediction error:", err));
+        });
+    </script>
+  </body>
 </html>
