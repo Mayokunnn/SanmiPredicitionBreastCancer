@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Breast Cancer Predictor</title>
+  <title>Breast Cancer Prediction</title>
   <style>
     * {
       box-sizing: border-box;
@@ -12,136 +12,206 @@
     }
 
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(120deg, #f8f9fa, #e9ecef);
+      font-family: 'Poppins', sans-serif;
+      background: #f0f4f8;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 30px;
+      padding: 20px;
     }
 
-    .form-wrapper {
-      background-color: #ffffff;
-      padding: 40px;
+    .app-container {
+      display: flex;
       width: 100%;
-      max-width: 700px;
-      border-radius: 10px;
-      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+      max-width: 900px;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     }
 
-    .form-title {
-      text-align: center;
-      font-size: 2rem;
-      color: #333;
-      margin-bottom: 30px;
+    .sidebar {
+      width: 300px;
+      background: linear-gradient(180deg, #3b82f6, #2563eb);
+      padding: 24px;
+      color: #fff;
     }
 
-    .form-group {
+    .sidebar-title {
+      font-size: 1.5rem;
+      font-weight: 600;
       margin-bottom: 20px;
     }
 
+    .form-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .form-group {
+      position: relative;
+    }
+
     .form-label {
-      font-weight: 600;
-      display: block;
-      margin-bottom: 6px;
-      color: #444;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 4px;
       text-transform: capitalize;
     }
 
     .form-input {
       width: 100%;
-      padding: 10px;
-      font-size: 1rem;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      transition: border-color 0.2s ease;
+      padding: 8px;
+      font-size: 0.9rem;
+      border: none;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.9);
+      transition: box-shadow 0.2s ease;
     }
 
     .form-input:focus {
-      border-color: #4caf50;
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
       outline: none;
     }
 
-    .btn {
-      width: 100%;
-      padding: 12px;
-      background-color: #4caf50;
-      color: white;
+    .tooltip {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      font-size: 0.75rem;
+      background: #1e40af;
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      pointer-events: none;
+    }
+
+    .form-group:hover .tooltip {
+      opacity: 1;
+    }
+
+    .submit-btn {
+      margin-top: 16px;
+      padding: 10px;
+      background: #fff;
+      color: #2563eb;
       font-size: 1rem;
-      font-weight: bold;
+      font-weight: 600;
       border: none;
       border-radius: 6px;
       cursor: pointer;
-      transition: background-color 0.2s ease;
+      transition: background 0.2s ease;
     }
 
-    .btn:hover {
-      background-color: #43a047;
+    .submit-btn:hover {
+      background: #f0f4f8;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .main-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 16px;
     }
 
     .result-box {
       display: none;
-      margin-top: 30px;
-      background-color: #f1f1f1;
-      border-left: 5px solid #4caf50;
-      padding: 20px;
-      border-radius: 6px;
+      padding: 16px;
+      background: #eff6ff;
+      border-radius: 8px;
+      border: 1px solid #bfdbfe;
+      animation: slideIn 0.3s ease;
     }
 
-    .result-box h3 {
-      margin-bottom: 10px;
-      color: #333;
+    .result-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 8px;
     }
 
     .result-text {
-      font-size: 1.1rem;
-      color: #555;
+      font-size: 1rem;
+      color: #4b5563;
     }
 
-    @media screen and (max-width: 600px) {
-      .form-wrapper {
-        padding: 20px;
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @media screen and (max-width: 700px) {
+      .app-container {
+        flex-direction: column;
       }
 
-      .form-title {
+      .sidebar {
+        width: 100%;
+      }
+
+      .main-content {
+        padding: 16px;
+      }
+
+      .main-title {
         font-size: 1.5rem;
       }
     }
   </style>
 </head>
 <body>
-  <div class="form-wrapper">
-    <h1 class="form-title">Breast Cancer Predictor</h1>
-
-    <form id="predictForm">
-      {% for name in feature_names %}
-      <div class="form-group">
-        <label class="form-label" for="{{ name }}">{{ name }}</label>
-        <input
-          class="form-input"
-          type="number"
-          step="any"
-          name="{{ name }}"
-          id="{{ name }}"
-          value="{{ default_values[name] if default_values[name] else 0 }}"
-          required
-        />
+  <div class="app-container">
+    <div class="sidebar">
+      <h2 class="sidebar-title">Breast Cancer Prediction</h2>
+      <form id="predictForm" class="form-grid">
+        {% for name in feature_names %}
+        <div class="form-group">
+          <label class="form-label" for="{{ name }}">{{ name }}</label>
+          <input
+            class="form-input"
+            type="number"
+            step="any"
+            name="{{ name }}"
+            id="{{ name }}"
+            value="{{ default_values[name] if default_values[name] else 0 }}"
+            required
+          />
+          <span class="tooltip">Enter a value for {{ name }}</span>
+        </div>
+        {% endfor %}
+        <button type="submit" class="submit-btn">Predict</button>
+      </form>
+    </div>
+    <div class="main-content">
+      <h1 class="main-title">Prediction Results</h1>
+      <div id="prediction-result" class="result-box">
+        <h3 class="result-title">Prediction Result:</h3>
+        <p id="result" class="result-text"></p>
       </div>
-      {% endfor %}
-      <button type="submit" class="btn">Predict</button>
-    </form>
-
-    <div id="prediction-result" class="result-box">
-      <h3>Prediction Result:</h3>
-      <p id="result" class="result-text"></p>
     </div>
   </div>
 
   <script>
     document.getElementById("predictForm").addEventListener("submit", function (e) {
       e.preventDefault();
-
       const inputs = document.querySelectorAll(".form-input");
       const features = Array.from(inputs).map((input) => parseFloat(input.value));
 
@@ -156,10 +226,8 @@
             alert("Error: " + data.error);
             return;
           }
-
           const resultBox = document.getElementById("prediction-result");
           const resultText = document.getElementById("result");
-
           resultText.textContent = `Diagnosis: ${data.diagnosis} | Probability: ${data.probability.toFixed(2)}`;
           resultBox.style.display = "block";
         })
